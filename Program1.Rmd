@@ -1,1 +1,68 @@
+---
+title: "Hawaii Solar Irradiance"
+author: "Gus Coffey and Kelli McCarty"
+date: "Spring 2026"
+output:
+  html_document:
+    theme: cosmo
+    toc: yes
+    toc_float: yes
+    df_print: kable
+---
+
+```{r Loading Libraries}
+library(tidyverse)
+```
+
+```{r Loading Data}
+atlantic <- "atlantic.csv"
+raw_atlantic <- read_csv(atlantic)
+
+pacific <- "pacific.csv"
+raw_pacific <- read_csv(pacific)
+```
+
+```{r Data Cleaning}
+# Adding new column that labels all observations as coming from the Atlantic ocean
+raw_atlantic <- raw_atlantic %>% mutate(ocean = "ATL")
+
+# Adding new column that labels all observations as coming from the Atlantic ocean
+raw_pacific <- raw_pacific %>% mutate(ocean = "PAC")
+
+# Combining pacific and atlantic data into one dataframe
+raw_pac_atl <- rbind(raw_pacific, raw_atlantic)
+
+str(raw_pac_atl)
+
+# Changing Date column datatype from numeric to date (yyyy-mm-dd)
+raw_pac_atl$Date <- as.Date(as.character(raw_pac_atl$Date), format = "%Y%m%d")
+# raw_pac_atl$ocean <- as.factor(raw_pac_atl$ocean)
+
+typhoons <- raw_pac_atl %>% rename(MaxWind = `Maximum Wind`,
+                                   MinPress = `Minimum Pressure`,
+                                   LowWindNE = `Low Wind NE`,
+                                   LowWindSE = `Low Wind SE`,
+                                   LowWindSW = `Low Wind SW`,
+                                   LowWindNW = `Low Wind NW`,
+                                   ModWindNE = `Moderate Wind NE`,
+                                   ModWindSE = `Moderate Wind SE`,
+                                   ModWindSW = `Moderate Wind SW`,
+                                   ModWindNW = `Moderate Wind NW`,
+                                   HiWindNE = `High Wind NE`,
+                                   HiWindSE = `High Wind SE`,
+                                   HiWindSW = `High Wind SW`,
+                                   HiWindNW = `High Wind NW`)
+
+#TODO: Maybe change this to the way we learned in class
+typhoons <- typhoons %>% drop_na(Event) %>% filter(!if_any(c(MaxWind, MinPress, 
+                                                             LowWindNE, LowWindSE, 
+                                                             LowWindSW, LowWindNW, 
+                                                             ModWindNE, ModWindSE, 
+                                                             ModWindSW, ModWindNW, 
+                                                             HiWindNE, HiWindSE, 
+                                                             HiWindSW, HiWindNW), ~ . == -999))
+
+str(typhoons)
+
+```
 
