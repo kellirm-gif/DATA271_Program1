@@ -61,7 +61,9 @@ typhoons <- typhoons %>% drop_na(Event) %>% filter(!if_any(c(MaxWind, MinPress,
                                                              ModWindSW, ModWindNW, 
                                                              HiWindNE, HiWindSE, 
                                                              HiWindSW, HiWindNW), ~ . == -999))
+```
 
+```{r}
 head(typhoons)
 summary(typhoons)
 str(typhoons)
