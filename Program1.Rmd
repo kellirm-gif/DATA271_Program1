@@ -1,5 +1,5 @@
 ---
-title: "Hawaii Solar Irradiance"
+title: "Project 1: Typhoons"
 author: "Gus Coffey and Kelli McCarty"
 date: "Spring 2026"
 output:
@@ -8,12 +8,16 @@ output:
     toc: yes
     toc_float: yes
     df_print: kable
+    css: lab.css
 ---
 
+# Set Up
+
+## Loading Libraries
 ```{r Loading Libraries}
 library(tidyverse)
 ```
-
+## Loading Data
 ```{r Loading Data}
 atlantic <- "atlantic.csv"
 raw_atlantic <- read_csv(atlantic)
@@ -21,6 +25,7 @@ raw_atlantic <- read_csv(atlantic)
 pacific <- "pacific.csv"
 raw_pacific <- read_csv(pacific)
 ```
+# Data Cleaning and Wrangling
 
 ```{r Data Cleaning}
 # Adding new column that labels all observations as coming from the Atlantic ocean
@@ -62,12 +67,18 @@ typhoons <- typhoons %>% drop_na(Event) %>% filter(!if_any(c(MaxWind, MinPress,
                                                              HiWindNE, HiWindSE, 
                                                              HiWindSW, HiWindNW), ~ . == -999))
 ```
+# Distributions and Summary Statistics 
 
-```{r}
+## Summary Statistics
+```{r Summary Statistics}
 head(typhoons)
 summary(typhoons)
 str(typhoons)
-
-
 ```
+## Data Visualizations
+```{r Visualizations}
+#TODO: add code
+```
+
+# Research Questions
 
