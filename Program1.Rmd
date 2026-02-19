@@ -74,11 +74,59 @@ typhoons <- typhoons %>% drop_na(Event) %>% filter(!if_any(c(MaxWind, MinPress,
 head(typhoons)
 summary(typhoons)
 str(typhoons)
+
+typhoons %>% group_by(ocean) %>% 
+  summarize(avg_max_wind = mean(MaxWind),
+                       sd_max_wind = sd(MaxWind),
+                       avg_min_pr = mean(MinPress),
+                       sd_min_pr = sd(MinPress),
+                       avg_hi_ne_wind = mean(HiWindNE),
+                       sd_hi_ne_wind = mean(HiWindNE)
+                       )
+
+typhoons %>% group_by(Status) %>% 
+  summarize(avg_max_wind = mean(MaxWind),
+                       sd_max_wind = sd(MaxWind),
+                       avg_min_pr = mean(MinPress),
+                       sd_min_pr = sd(MinPress),
+                       avg_hi_ne_wind = mean(HiWindNE),
+                       sd_hi_ne_wind = mean(HiWindNE)
+                       ) %>% 
+  arrange(desc(avg_max_wind))
 ```
 ## Data Visualizations
 ```{r Visualizations}
-#TODO: add code
+# Histogram
+ggplot(typhoons, aes(x = MaxWind)) +
+  geom_histogram(aes(y = after_stat(density)), color = "white", fill = "darkseagreen") +
+  facet_wrap(~ocean) +
+  geom_density(color = "red") +
+  labs(x = "Maximum Wind Speed (mph)", 
+       y = "Frequency", 
+       title = "Histogram of Maximum Wind Speed by Ocean") +
+  theme_minimal()
+
+# Box Plot
+ggplot(typhoons, aes(x = ocean, y = MaxWind)) +
+  geom_boxplot(fill = "darkseagreen") +
+  labs(x = "Ocean", 
+       y = "Maximum Wind Speed (mph)", 
+       title = "Boxplot of Maximum Wind Speed by Ocean") +
+  theme_minimal()
+
+# Density Plot
+ggplot(typhoons, aes(x = MaxWind, fill = ocean)) + 
+  geom_density(alpha = 0.5) +
+  geom_vline(xintercept = mean(typhoons$MaxWind), 
+             color = "red", linetype = "dashed", size = 1) +
+  facet_wrap(~ocean) +
+  labs(title = "Density Plot of Maximum Wind Speed",
+       x = "Maximum Wind Speed (mph)",
+       y = "Density") +
+  theme_minimal()
 ```
 
 # Research Questions
-
+```{r}
+#TODO: add code
+```
