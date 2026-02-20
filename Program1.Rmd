@@ -127,6 +127,22 @@ ggplot(typhoons, aes(x = MaxWind, fill = ocean)) +
 ```
 
 # Research Questions
+
+*1. Is there a relationship between wind speed and pressure?*
+
+### Exploring Wind Speed - Pressure Relationship
 ```{r}
-#TODO: add code
+ggplot(typhoons, aes(x = MaxWind, y = MinPress, color = ocean)) +
+  geom_point() +
+  labs(x = "Maximum Wind Speed (mph)",
+       y = "Minimum Pressure (?)", #TODO: add pressure units?
+       title = "Scatterplot of Wind Speed and Pressure") +
+  geom_smooth() +
+  facet_wrap(~ocean) +
+  theme_minimal()
+```
+
+*2. ?*
+```{r}
+
 ```
